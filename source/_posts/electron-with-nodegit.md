@@ -36,7 +36,7 @@ $electron --abi
 50
 ```
 
-所以要在最新的 electron 中使用 nodegit，要自己编译下，在执行 npm install 前设置下环境变量：
+所以要自己编译下才能在最新的 electron 中使用 nodegit，在执行 npm install 前设置下环境变量：
 ```
 export BUILD_ONLY=1
 export npm_config_target=1.4.3
