@@ -1,7 +1,7 @@
 title: Angular：在 factory 中运行 controller 的 callback 函数
 date: 2016-08-31 20:54:13
-category: Angular-1.x
-tags:
+category: Frontend
+tags: Angular1
 ---
 
 示例代码效果：每隔 10 秒钟查询一次气温并刷新数据（防止不小心一直发，$timeout先注释掉了）。

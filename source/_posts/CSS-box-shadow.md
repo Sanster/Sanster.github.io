@@ -1,7 +1,7 @@
 title: CSS-box-shadow
 date: 2016-08-10 21:05:39
-category: CSS
-tags:
+category: Frontend
+tags: CSS
 ---
 
 css 的 box-shadow 参数可以为元素添加一个或多个阴影，例如按钮、卡片区域等，其参数如下：

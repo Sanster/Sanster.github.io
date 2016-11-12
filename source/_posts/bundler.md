@@ -1,7 +1,7 @@
 title: Bundler
 date: 2016-07-26 20:42:31
-category: Gems
-tags:
+category: Backend
+tags: Gems
 ---
 
 ruby 通过 Gem 包的方式来管理组件包，你可以在[这里]找到你所需的 Gem 包。一个 Ruby 项目如果需要依赖很多 Gem 包，管理所需的依赖包以一件很麻烦的事情，[Bundler](http://bundler.io/) 便是一个可以用来管理 Gem 包的 Gem 包（有点绕口），大名鼎鼎的 [Rails](https://github.com/rails/rails) 其实也就是一个 Gem 包。

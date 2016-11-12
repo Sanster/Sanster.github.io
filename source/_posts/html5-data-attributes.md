@@ -1,7 +1,7 @@
 title: HTML5 data attributes
 date: 2016-08-08 20:21:03
-category: HTML
-tags:
+category: Frontend
+tags: HTML
 ---
 
 HTML5 原生提供了`data`属性来存储数据，data 属性是一个全局的属性，所有 HTML 元素都可以使用，使用的方法是以`data-`为前缀来定义元素的属性名：

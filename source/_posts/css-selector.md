@@ -1,7 +1,7 @@
 title: CSS Selector
 date: 2016-08-07 16:23:29
-category: CSS
-tags:
+category: Frontend
+tags: CSS
 ---
 
 CSS 选择器用于选择需要添加样式的元素，可以按照三种类型来选择：HTML Tag、ID 和 Class
