@@ -3,11 +3,11 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Sanster's Blog 
+title: Sanster's Blog
 subtitle: Don't panic.
 description:
-author: Tony Chu 
-language: zh-CN
+author: Sanster
+language: en
 timezone:
 
 # URL
@@ -63,15 +63,15 @@ pagination_dir: page
 # Extensions
 ## Plugins: http://hexo.io/plugins/
 ## Themes: http://hexo.io/themes/
-theme: maupassant 
+theme: hexo-theme-next
 
 # Deployment
 ## Docs: http://hexo.io/docs/deployment.html
-deploy: 
+deploy:
   type: git
-  repo: git@github.com:Sanster/Sanster.github.io.git 
+  repo: git@github.com:Sanster/Sanster.github.io.git
   branch: master
-  message:         
-          
+  message:
+
 toc:
   maxDepth: 3
