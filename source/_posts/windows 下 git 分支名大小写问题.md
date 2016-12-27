@@ -70,6 +70,17 @@ refs
 
 在之前的操作中，我们先创建了 **R/123** 分支，git 就创建了对应的 R 文件夹，后面再创建 **r/234** 分支时，正确的姿势应该是创建一个 r 文件夹，但是**在 windows 下，文件夹名称不区分大小写！**这就导致了我们的分支文件直接创建在了 R 目录下，所以执行 git branch 命令时并没有显示 r/234 分支，而是显示 **R/234**。
 
+# 补充如果
+在 windows 中创建大小写同名分支时，如果分支名中不包含 / 的话，git 会提示相同的分支已经存在:
+```
+git checkout -b test
+Switched to a new branch 'test'
+
+git checkout -b TEST
+fatal: A branch named 'TEST' already exists.
+```
+
+
 # 解决问题
 知道了原因以后修正起来就方便了，可以直接在 `.git/refs/heads` 目录下按照你想要的方式修改文件夹/文件名，或者删了分支文件，重新拉一个分支都可以。
 
