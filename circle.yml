@@ -1,3 +1,8 @@
+general:
+  branches:
+    only:
+      - blog-master # list of branches to build
+
 deployment:
   production:
     branch: blog-master
