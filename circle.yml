@@ -2,9 +2,9 @@ deployment:
   production:
     branch: blog-master
     commands:
-      - git config --global user.name "sanster"
-      - git config --global user.email "cwq1913@gmail.com"
-      - echo GH_TOKEN
+      - git config --global user.name "Sanster"
+      - git config --global user.email "cwq1913@163.com"
+      - echo $GH_TOKEN
       - sed -i'' "s~https://github.com/Sanster/Sanster.github.io.git~https://${GH_TOKEN}:x-oauth-basic@github.com/Sanster/Sanster.github.io.git~" _config.yml
       - rm -rf .deploy_git/
       - hexo clean
