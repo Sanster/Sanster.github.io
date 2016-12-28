@@ -5,7 +5,6 @@ deployment:
       - git config --global user.name "Sanster"
       - git config --global user.email "cwq1913@163.com"
       - sed -i'' "s~https://github.com/Sanster/Sanster.github.io.git~https://${GH_TOKEN}:x-oauth-basic@github.com/Sanster/Sanster.github.io.git~" _config.yml
-      - cat _config.yml
       - rm -rf .deploy_git/
       - hexo clean
       - hexo generate
