@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "hexo": "^3.2.2",
+    "hexo-algolia": "^0.1.1",
     "hexo-deployer-git": "*",
     "hexo-generator-archive": "*",
     "hexo-generator-category": "*",

@@ -75,3 +75,10 @@ deploy:
 
 toc:
   maxDepth: 3
+
+algolia:
+  applicationID: 8EDADDARD0
+  apiKey: afa30ecd230482cacb572d98fd94e078
+  adminApiKey: 2e1ece0c494985a013f0088e6750fb61
+  indexName: sanster_blog
+  chunkSize: 5000
