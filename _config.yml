@@ -69,7 +69,7 @@ theme: hexo-theme-next
 ## Docs: http://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: git@github.com:Sanster/Sanster.github.io.git
+  repo: https://github.com/Sanster/Sanster.github.io.git
   branch: master
   message:
 

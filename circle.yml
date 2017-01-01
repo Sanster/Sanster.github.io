@@ -1,0 +1,17 @@
+general:
+  branches:
+    only:
+      - blog-master # list of branches to build
+
+deployment:
+  production:
+    branch: blog-master
+    commands:
+      - git config --global user.name "Sanster"
+      - git config --global user.email "cwq1913@163.com"
+      - git clone https://github.com/Sanster/hexo-theme-next.git themes/hexo-theme-next
+      - sed -i'' "s~https://github.com/Sanster/Sanster.github.io.git~https://${GH_TOKEN}:x-oauth-basic@github.com/Sanster/Sanster.github.io.git~" _config.yml
+      - rm -rf .deploy_git/
+      - hexo clean
+      - hexo generate
+      - hexo deploy
