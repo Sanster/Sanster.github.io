@@ -1,6 +1,6 @@
 title: Mac操作
 date: 2015-12-19 22:37:10
-category: mac
+category: Mac
 tags:
 ---
 

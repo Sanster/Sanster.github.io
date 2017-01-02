@@ -2,7 +2,7 @@ title: golang学习资源收集
 indent: '&ensp;&ensp;&ensp;&ensp;'
 date: 2016-01-11 21:05:17
 category: Backend
-tags: go
+tags: Go
 ---
 
 整理 Go 语言的相关学习资料。

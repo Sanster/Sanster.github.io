@@ -1,7 +1,9 @@
 title: HTML 中的块级元素和行内元素
 date: 2016-11-15 22:17:56
 category: Frontend
-tags: [HTML, CSS]
+tags:
+    - HTML
+    - CSS
 ---
 
 # 块级(block)元素

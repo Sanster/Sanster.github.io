@@ -1,7 +1,7 @@
 title: vue 动态组件的参数
 date: 2016-11-12 21:16:29
 category: Frontend
-tags: [Vue2]
+tags: Vue2
 ---
 
 Vue 提供创建 [Dynamic Components](https://vuejs.org/v2/guide/components.html#Dynamic-Components) 的能力。

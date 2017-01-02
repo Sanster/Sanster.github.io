@@ -1,7 +1,7 @@
 title: golang工作空间设置
 date: 2016-01-10 09:11:13
 category: Backend
-tags: go
+tags: Go
 ---
 
 {{indent}}linux／Mac下，go语言默认安装到`/usr/local/go`目录下，安装完成后需要将`/usr/local/go/bin`添加到**PATH**当中，目前用的是zsh，所以在`~/.zshrc`文件当中添加`export PATH=$PATH:/usr/local/go/bin`即可。

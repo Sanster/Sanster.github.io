@@ -1,7 +1,9 @@
 title: 在 Electron-v1.4.3 中使用 nodegit
 date: 2016-10-16 13:12:31
-category: Frontend 
-tags: [electron, nodegit]
+category: Frontend
+tags:
+  - electron
+  - nodegit
 ---
 
 [Nodegit](https://github.com/nodegit/nodegit) 是 [libgit2](https://libgit2.github.com/) 的 Nodejs 客户端，同时也支持 [Electron](https://github.com/electron/electron),官方的教程说在 `package.json` 里面指定 engines 就能使用：

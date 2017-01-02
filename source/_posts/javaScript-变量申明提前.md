@@ -1,7 +1,7 @@
 title: JavaScript 变量申明提前
 date: 2016-08-22 21:42:51
-category: javascript
-tags:
+category: Language
+tags: Javascript
 ---
 
 今天看到一个很「神奇」的 JavaScript 特性：JavaScript 函数中声明的所有变量（但不涉及赋值）都会被“提前”至函数的顶部，下面举例来说明。

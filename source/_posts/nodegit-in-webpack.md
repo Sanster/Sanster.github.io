@@ -1,7 +1,9 @@
 title: nodegit 与 webpack
 date: 2016-11-12 20:51:31
 category: Frontend
-tags: [webpack, nodegit]
+tags:
+  - webpack
+  - nodegit
 ---
 
 nodegit 在与 webpack 一起使用时，如果不做任何配置，会报以下错误，导致打包失败。
@@ -43,5 +45,5 @@ externals: [
 
 这样配置以后就可以在 webpack 要处理的 js 代码中继续使用 `require('nodegit')`，webpack 会使用 commonjs 方式加载 nodegit，并且不会去打包 nodegit。
 
-> "webpack": "^2.1.0-beta.25  
-> "nodegit": "^0.16.0"  
+> "webpack": "^2.1.0-beta.25
+> "nodegit": "^0.16.0"

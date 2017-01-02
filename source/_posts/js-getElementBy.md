@@ -1,7 +1,7 @@
-title: 通过变量改变元素属性值
+title: javascript 通过变量改变元素属性值
 date: 2016-08-06 20:12:42
-category: javascript
-tags:
+category: Language
+tags: Javascript
 ---
 
 今天学习了一个场景：根据变量的值来改变元素的 height 和 width，代码如下
