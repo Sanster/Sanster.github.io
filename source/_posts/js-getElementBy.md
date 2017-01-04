@@ -12,6 +12,8 @@ document.getElementById('myElementId').style.height = my_height + "px";
 document.getElementById('myElementId').style.width = my_width + "px";
 ```
 
+<!--more-->
+
 在选择元素时，刚开始使用了`getElementsByClassName`，但是一直报错，代码如下
 ```javascript
 document.getElementsByClassName('myElementClass').style.height = '100px';

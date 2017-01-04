@@ -18,6 +18,8 @@ function myFunc(){
 myFunc();
 ```
 
+<!--more-->
+
 局部变量 scope 的声明被提前至函数顶部，所以上面这段代码「翻译」过来和下面这段代码效果是一样的：
 
 ```javascript

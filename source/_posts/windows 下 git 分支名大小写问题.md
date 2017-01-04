@@ -26,6 +26,8 @@ fatal: The remote end hung up unexpectedly
 
 git 提示你分支 `r/234` 不存在。
 
+<!--more-->
+
 # 复现
 1. 准备测试 git 工程环境：
 ```

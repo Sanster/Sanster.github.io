@@ -6,6 +6,8 @@ tags: Django
 
 CORS 的全称为 Cross-origin resource sharing（跨域资源共享），是 W3C 的一个标准，它的作用是允许使用 AJAX 向不同源的服务器发送 GET、POST 等请求，CORS 标准的实现需要游览器端和客户端都支持，现代的游览器一般都支持，发请求时开发者在自己的代码里不需要为支持 CORS 做任何改动，如果服务器端允许 CORS 访问就可以进行跨域的资源共享，具体的介绍可以看阮一峰的博客：[跨域资源共享 CORS 详解](http://www.ruanyifeng.com/blog/2016/04/cors.html)
 
+<!--more-->
+
 在 Django 中可以使用 [Django CORS headers](https://github.com/ottoyiu/django-cors-headers) 来使服务器端支持 CORS，可以方便地设置允许跨域的 URL 表达式、允许跨域访问的白名单等。参考文章：[Django CORS](http://www.vinta.com.br/blog/2015/django-cors/)
 
 CSRF 的全称为 Cross Site Request Forgery（跨站域请求伪造），是一种网络攻击方式，具体的攻击方法和应对方法可见：[CSRF 攻击的应对之道](http://www.ibm.com/developerworks/cn/web/1102_niugang_csrf/)。

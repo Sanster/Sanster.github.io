@@ -1,4 +1,4 @@
-title: Git cherry-pick 
+title: Git cherry-pick
 date: 2016-12-27 15:27:48
 category: Git
 tags:
@@ -17,6 +17,8 @@ AuthorDate: Mon Dec 19 09:00:29 2016 +0800
 Commit:     user2 <user2@email.com>
 CommitDate: Mon Dec 19 09:20:29 2016 +0800
 ```
+
+<!--more-->
 
 如果 cherry-pick 的是一个 merge 节点，git 会给出以下提示，提示中显示要加上 -m 参数：
 ```

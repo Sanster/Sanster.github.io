@@ -8,6 +8,8 @@ tags:
 
 nodegit 在与 webpack 一起使用时，如果不做任何配置，会报以下错误，导致打包失败。
 
+<!--more-->
+
 ```
 WARNING in ../~/nodegit/build/Release/nodegit.node
 Module parse failed: /Users/cwq/Github/static-git/node_modules/nodegit/build/Release/nodegit.node Unexpected character '�' (1:0)

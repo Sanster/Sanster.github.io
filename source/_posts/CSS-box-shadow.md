@@ -18,6 +18,8 @@ box-shadow: h-shadow v-shadow blur spread color inset;
 
 可以在这里体验下不同参数的阴影效果：http://www.w3school.com.cn/tiy/c.asp?f=css_box-shadow&p=7
 
+<!--more-->
+
 [这篇 Blog](http://blog.csdn.net/freshlover/article/details/7610269) 对于 box-shadow 的用法讲得很清楚，下面是根据这篇 Blog 写的 JSFiddle 的例子：
 {% jsfiddle 12qmgnhw html,css,result dark 100% 300px %}
 

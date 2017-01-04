@@ -15,6 +15,8 @@ HTML5 原生提供了`data`属性来存储数据，data 属性是一个全局的
 </article>
 ```
 
+<!--more-->
+
 # 在 JS 中使用 data
 data 中存储的数据可以在 JS 中通过元素内置的`dataset`属性获得，所获得的值均为字符串，这里要注意 `data-index-number` 这个 data，HTML 中 index 和 number 中间的`-`符号会根据「驼峰」原则转化。
 

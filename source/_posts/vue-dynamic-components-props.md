@@ -22,6 +22,8 @@ var vm = new Vue({
 })
 ```
 
+<!--more-->
+
 在 HTML template 中可以使用 `<component>` 标签来动态指定需要渲染哪个组件，只要 `currentView` 的值改变，相应的组件就会被渲染。
 ```
 <component v-bind:is="currentView"></component>
