@@ -28,7 +28,7 @@ foo();
 // Hello!
 ```
 
-可以看到，IIFE 函数被包裹在 `( .. )` 中，这是 javascript 的语法，括号中的内容被被认为是一个 [function expression](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/function)，表达式结尾的 `();` 就是用来执行函数表达式的内容。
+可以看到，IIFE 函数被包裹在 `( .. )` 中，这是 javascript 的语法，括号中的内容被认为是一个 [function expression](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/function)，表达式结尾的 `();` 就是用来执行函数表达式的内容。
 
 > 上面的 IIFE 也可以将括号的位置换一下，等价于以下写法：
  ```javascript
@@ -36,8 +36,22 @@ foo();
      console.log("Hello!")
  }());
  ```
+ 
+如果把括号去掉写成这种形式就会报错：
+```javascript
+function IIFE() {
+    console.log("Hello!")
+}();
+// Uncaught SyntaxError: Unexpected token )
+```
 
-按以下这种写法可以看出 IIFE 和非 IIFE 写法其实是很相似的：
+这种写法相当于先使用了 [function declaration](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function) 定义一个函数，然后再执行一个空的表达式，相当于如下代码，第一行与第二行没有任何关系：
+```javascript
+function IIFE() { console.log("Hello!") }
+();
+```
+
+如果按照以下这种写法可以看出 IIFE 和非 IIFE 写法其实是很相似的：
 
 ```javascript
 function foo() { .. }
