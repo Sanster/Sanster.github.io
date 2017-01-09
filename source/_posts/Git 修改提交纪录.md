@@ -1,7 +1,7 @@
-title: Git 修改提交纪录 
+title: Git 修改提交纪录
 date: 2015-11-22 11:20:48
-category: Git
-tags:
+category: Tools
+tags: Git
 ---
 
 **修改最近一次提交**
@@ -29,7 +29,7 @@ tags:
 **修改历史提交**
 `git commit --amend` 命令只能修改最近的一次提交，如果想修改再之前的提交可以使用`git rebase -i`命令。执行`git rebase -i HEAD~3`后会在编辑器中显示如下内容：
 ```vim
-pick 76338f5 1 
+pick 76338f5 1
 pick b4c7566 2
 pick d4ffba8 3
 
@@ -53,7 +53,7 @@ pick d4ffba8 3
 ```
 前三行即为最近的三次提交，`d4ffba8 3`是最新的一次，`76338f5 1`是最早的一次提交。如果想要修改`76338f5 1`的内容，可将第一行的pick改成edit，然后保存退出编辑器。退出后，分支的`HEAD`就回到了`76338f5 1`，这时就可以通过`git commit --amend`来修改commit的内容。修改完后，执行`git rebase --continue`就可以回到`d4ffba8 3`.除了`edit`，`pick`，还有其它参数可选，以`squash`为例：
 ```vim
-pick 76338f5 1 
+pick 76338f5 1
 squash b4c7566 2
 pick d4ffba8 3
 ```

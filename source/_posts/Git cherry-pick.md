@@ -1,7 +1,7 @@
 title: Git cherry-pick
 date: 2016-12-27 15:27:48
-category: Git
-tags:
+category: Tools
+tags: Git
 ---
 
 git cherry-pick 命令可以用来挑选其他分支的 commit 合入当前分支：

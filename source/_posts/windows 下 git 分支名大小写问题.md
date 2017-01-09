@@ -1,7 +1,7 @@
 title: windows 下 git 分支名大小写问题
 date: 2016-12-27 09:38:48
-category: Git
-tags:
+category: Tools
+tags: Git
 ---
 
 # 问题

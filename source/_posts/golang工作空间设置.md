@@ -1,6 +1,6 @@
 title: golang工作空间设置
 date: 2016-01-10 09:11:13
-category: Backend
+category: Language
 tags: Go
 ---
 
