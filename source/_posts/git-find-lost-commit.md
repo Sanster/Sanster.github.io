@@ -17,6 +17,7 @@ dangling commit 9ab33dd5c1972654291e4a3a2aba195dc8046ca8
 
 > dangling 不是拼音！人家的意思是「悬、挂」...
 
+如果你执行过了 `git gc` 命令清理 .git 文件夹的内容，那 `fsck` 就找不回 commit 了
 
 参考链接：
 * http://stackoverflow.com/questions/10099258/how-can-i-recover-a-lost-commit-in-git
