@@ -80,6 +80,31 @@ var a = 42;
 console.log( a );       // 42
 ```
 
+利用 IIFE 的特性，可以使用它来定义模块，仅暴露想要暴露的函数和变量，隐藏内部私有的变量：
+```
+var counter = (function(){
+  var i = 0;
+
+  return {
+    get: function(){
+      return i;
+    },
+    set: function( val ){
+      i = val;
+    },
+    increment: function() {
+      return ++i;
+    }
+  };
+})();
+
+counter.get(); // 0
+counter.set( 3 );
+counter.increment(); // 4
+counter.increment(); // 5
+
+counter.i;  //undefined
+```
 
 原文链接：
 * [You Don't know JS-IIFE](https://github.com/getify/You-Dont-Know-JS/blob/master/up%20%26%20going/ch2.md#immediately-invoked-function-expressions-iifes)
