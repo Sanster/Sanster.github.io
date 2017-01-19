@@ -6,6 +6,7 @@
     "version": "3.2.2"
   },
   "dependencies": {
+    "cheerio": "^0.22.0",
     "hexo": "^3.2.2",
     "hexo-algolia": "^0.2.0",
     "hexo-deployer-git": "*",
