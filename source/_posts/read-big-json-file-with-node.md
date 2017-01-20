@@ -31,8 +31,6 @@ console.log(data)
 
 对于超大的 json 文件，直接 require 的话会占用很多内存，而且 require 是一个"同步加载"（synchronous）的过程，所以还会很慢。
 
-<!--more-->
-
 我们可以采用 [JSONStream](https://github.com/dominictarr/JSONStream) 这个库来读取超大的 json 文件，就当上面的 data.json 是一个超大的 json 文件，我们用 JSONStream 把 data.json 文件的内容打印出来：
 
 ```javascript
