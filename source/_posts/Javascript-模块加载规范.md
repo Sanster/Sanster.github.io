@@ -57,7 +57,7 @@ define(function(require, exports) {
 ```
 
 ## UMD(Universal Module Definition)
-使用 UMD 可以让模块兼容 AMD 规范、 CommonJS 规范，同还能支持的「全局」变量规范，UMD 规范其实只是一种写法，根据 AMD、CommonJS 规范的特点来判断当前的环境，不需要使用额外的库。
+使用 UMD 可以让模块兼容 AMD 规范、 CommonJS 规范，同还支持「全局」变量规范，UMD 规范其实只是一种写法，根据 AMD、CommonJS 规范的特点来判断当前的环境，不需要使用额外的库。
 在 UMD 的 [GitHub](https://github.com/umdjs/umd) 仓库中提供了各种 [templates](https://github.com/umdjs/umd/tree/master/templates)，可以根据你的兼容性需求来选择参考的模板，下面的代码是 [returnExports](https://github.com/umdjs/umd/blob/master/templates/returnExports.js) 模板中的例子，还是比较容易看懂的：
 ```
 (function (root, factory) {
