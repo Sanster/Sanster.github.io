@@ -2,7 +2,7 @@ title: Javascript 中的原生 DOM 操作（一）
 description: 查询 DOM 元素及 Attribute 相关内容
 date: 2017-02-04 15:14:48
 category: Language
-tags: 
+tags:
   - Javascript
   - DOM
 ---
@@ -10,16 +10,16 @@ tags:
 
 > 整理自《JavaScript 权威指南》
 
-## 基本概念
+# 基本概念
 每一个 DOM 节点都是一个 Node 对象，该对象有一个 `nodeType` 整数字段表示属于什么类型：
 * 1 - Element
 * 2 - Attribute
 * 3 - Text
 
-## 查询 DOM 元素
+# 查询 DOM 元素
 返回单个元素的 API，如果没有查询到的话，会返回 null 对象。返回多个元素的 API，如果没有查询到对象，会返回空 NodeList/HTMLCollection 对象。
 
-### 通过 document 全局查询元素
+## 通过 document 全局查询元素
 指定查询类型查询:
 ```javascript
 var el = document.getElementById('id-name');
@@ -39,7 +39,7 @@ var el = document.querySelector(".class-name");
 var el_NodeList = document.querySelectorAll("div.class1, div.class2");
 ```
 
-### 根据元素查询
+## 根据元素查询
 ```javascript
 // 获取父元素、父节点(区别是什么？)
 var parent = el.parentElement;
@@ -61,7 +61,7 @@ var el_HTMLCollection = el.getElementsByTagName('tag-name');
 var el_HTMLCollection = el.getElementsByClassName('class-name');
 ```
 
-### NodeList 与 HTMLCollection
+## NodeList 与 HTMLCollection
 可以看到在上面的查询中，当查询多个元素时，有些 API 会返回 NodeList 类型的对象，而有些会返回 HTMLCollection 类型的对象。这两种对象都是**只读**的类数组对象，可以通过 `length` 获得其长度。
 
 两者都具有实时性（**注：** querySelectorAll 返回的 NodeList 对象除外），当添加了新的元素，或有元素被修改时，都会随之改变：
@@ -77,7 +77,7 @@ el_HTMLCollection; // [div]
 
 NodeList 和 HTMLCollection 的区别在于：HTMLCollection 对象可以通过元素的 id 直接索引元素。
 
-## 元素属性(attribute)操作
+# 元素属性(attribute)操作
 某些特定的元素定义了部分通用属性，可以通过属性名直接索引或修改相应的值，如 `<img>` 元素对象有 src 属性：
 ```javascript
 var image = document.getElementById("myImage");
@@ -102,7 +102,7 @@ var class_string = el.getAttribute('class');
 el.hasAttribute('class');
 
 // 是否有属性
-el.hasAttributes();  
+el.hasAttributes();
 ```
 
 所有 Element 类型的节点都有一个**实时、只读**的 attributes 对象，该对象可以直接用属性名索引对应的属性：
