@@ -1,5 +1,5 @@
 title: Javascript 中的原生 DOM 操作（一）
-description: 查询 DOM 元素及 Attribute 相关内容
+sub_title: 查询 DOM 元素及 Attribute 相关内容
 date: 2017-02-04 15:14:48
 category: Language
 tags:
