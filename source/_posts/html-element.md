@@ -8,7 +8,7 @@ tags:
 
 # 块级(block)元素
 
-CSS 属性：display:block
+块级元素拥有CSS 属性：`display:block`
 
 默认情况下，块级元素会占据父级容器的全部宽度，并且会新起一行，块级元素中可以包含其他块级元素或者行内元素。
 宽度(width)、高度(height)、内边距(padding)和外边距(margin)都可控制;
