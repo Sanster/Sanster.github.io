@@ -7,7 +7,6 @@ tags:
   - DOM
 ---
 
-
 > 整理自《JavaScript 权威指南》
 
 # 基本概念
@@ -18,6 +17,8 @@ tags:
 
 # 查询 DOM 元素
 返回单个元素的 API，如果没有查询到的话，会返回 null 对象。返回多个元素的 API，如果没有查询到对象，会返回空 NodeList/HTMLCollection 对象。
+
+<!--more-->
 
 ## 通过 document 全局查询元素
 指定查询类型查询:

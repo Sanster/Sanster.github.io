@@ -20,6 +20,8 @@ foo()
 
 评论里有人提到这是「最基本」的 TDZ，之前完全没听过这个词，赶紧学习一下。
 
+<!--more-->
+
 # TDZ(Temporal dead zone)
 上面的代码如果在最新的 Chrome 中运行，会报 `Uncaught ReferenceError: x is not defined` 的错误，要搞明白为什么会有这个错误，首先要了解 TDZ（temporal dead zone)，看下面一段代码：
 

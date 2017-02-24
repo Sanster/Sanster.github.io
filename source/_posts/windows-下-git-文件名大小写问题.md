@@ -5,9 +5,11 @@ tags:
     - Git
 ---
 
-今天又遇到了在《[总是使用 git lfs track 来添加 lfs 追踪文件](http://sanster.github.io/2017/01/11/%E6%80%BB%E6%98%AF%E4%BD%BF%E7%94%A8%20git%20lfs%20track%20%E6%9D%A5%E6%B7%BB%E5%8A%A0%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B)》中提到的问题：windows 下 git clone 以后未做任何修改，但是 git status 却显示有文件修改了！看了一下项目的文件结构，并没有使用 git-lfs，在请教了同事后总算搞明白了。
+今天又遇到了在《[总是使用 git lfs track 来添加 lfs 追踪文件](http://sanster.github.io/2017/01/11/%E6%80%BB%E6%98%AF%E4%BD%BF%E7%94%A8%20git%20lfs%20track%20%E6%9D%A5%E6%B7%BB%E5%8A%A0%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B)》中提到的问题：windows 下 git clone 以后未做任何修改，但是 git status 却显示有文件修改了！看了一下项目的文件结构，并没有使用 git-lfs，在请教了同事后总算搞明白了：问题的原因和 windows 下文件、文件夹不区分大小写有关。
 
-问题的原因和 windows 下文件、文件夹不区分大小写有关。假设你的 GitHub 仓库中有一个 `file.txt` 文件，文件内容如下：
+<!--more-->
+
+假设你的 GitHub 仓库中有一个 `file.txt` 文件，文件内容如下：
 ```
 This is origin file.
 ```
