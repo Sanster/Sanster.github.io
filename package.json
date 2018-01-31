@@ -18,12 +18,8 @@
     "hexo-renderer-jade": "*",
     "hexo-renderer-marked": "*",
     "hexo-renderer-pug": "0.0.5",
-    "hexo-renderer-sass": "*",
     "hexo-renderer-stylus": "*",
     "hexo-server": "*",
     "hexo-toc": "*"
-  },
-  "devDependencies": {
-    "hexo-renderer-sass": "^0.2.0"
   }
 }
