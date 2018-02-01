@@ -6,8 +6,10 @@ tags:
 ---
 
 发起 HTTP POST 请求时，参数通常会放在 body 中，body 中数据的编码方式由 header 中的 Content-Type 决定，
-常见的格式有以下几种：
-- application/x-www-form-urlencoded: 通过 form 表单发送的 POST 请求默认为该种格式，传递的数据使用 [URL encoding](https://en.wikipedia.org/wiki/Percent-encoding) 方式编码，会将数据中的特殊字符进行转义，例如 @ -> %40，空格 -> %20
+常见的格式有 application/x-www-form-urlencoded、application/json 等。
+<!--more-->
+
+- application/x-www-form-urlencoded：通过 form 表单发送的 POST 请求默认为该种格式，传递的数据使用 [URL encoding](https://en.wikipedia.org/wiki/Percent-encoding) 方式编码，会将数据中的特殊字符进行转义，例如 @ -> %40，空格 -> %20
 - multipart/form-data：上传二进制文件时需要指定该格式，在 form 表单中可以通过 enctype 指定 Content-Type 为该格式。 multipart/form-data 需要和 boundary 一起使用，以下是一次请求的示例：
 ```
 POST  HTTP/1.1

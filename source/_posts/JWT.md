@@ -7,6 +7,8 @@ tags:
 # 什么是 JWT？
 [JSON Web Token Authentication](https://jwt.io/) 可以用来在 web 应用中处理用户认证的，下图是 [JWT 官网](https://jwt.io/introduction/) 上关于 JWT 工作流程的介绍：首先客户端将用户名和密码 POST 到服务器端，服务器验证用户信息后，根据 JWT 的数据格式生成使用 secret 加密过的 token，并返回给客户端，客户端保存该 token（如 localStorage），并在每次请求中把 token 附带在 Header 里发送给服务器，服务器使用 secret 解密后即可获得用户会话信息。
 
+<!--more-->
+
 ![jwt-diagram](/images/jwt-diagram.png)
 
 # JWT 的数据结构

@@ -1,5 +1,4 @@
 title: Google's Distributed Code Review Tool For Git
-sub_title: git appraise
 date: 2017-02-23 08:50:48
 category: Tools
 tags:
