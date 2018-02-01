@@ -254,12 +254,10 @@ highlight_theme: normal
 # Third Party Services Settings
 # ---------------------------------------------------------------
 
-# MathJax Support
-mathjax:
+# Katex support
+katex:
   enable: true
-  per_page: false
-  cdn: //cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML
-
+  csscdn: https://cdn.bootcss.com/KaTeX/0.7.1/katex.min.css
 
 # Swiftype Search API Key
 #swiftype_key:

@@ -19,7 +19,7 @@
     "hexo-render-pug": "^1.0.1",
     "hexo-renderer-ejs": "*",
     "hexo-renderer-jade": "*",
-    "hexo-renderer-marked": "*",
+    "hexo-renderer-markdown-it-plus": "^1.0.2",
     "hexo-renderer-pug": "0.0.5",
     "hexo-renderer-stylus": "*",
     "hexo-server": "*",
