@@ -1,0 +1,45 @@
+.page-archive {
+
+  .archive-page-counter {
+    position: relative;
+    top: 3px;
+    left: 20px;
+
+    +mobile() {
+      top: 5px;
+    }
+  }
+
+  .posts-collapse {
+    .post {
+      margin: 23px 0;
+    }
+  }
+
+  .posts-collapse .archive-post-title {
+    font-size: 17px;
+    word-break: break-word;
+    font-weight: 500;
+
+    a {
+      border-bottom: none;
+    }
+
+    +mobile() {
+      font-size: 14px;
+    }
+
+  }
+
+  .archive-post-row {
+    display: flex;
+    justify-content: space-between
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+
+    time {
+      color: #999;
+    }
+  }
+}
+
