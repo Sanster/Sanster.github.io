@@ -2,6 +2,10 @@ general:
   branches:
     only:
       - blog-master # list of branches to build
+      
+machine:
+  node:
+    version: 8.11.1
 
 deployment:
   production:
