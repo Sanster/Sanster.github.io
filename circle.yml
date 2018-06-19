@@ -11,7 +11,6 @@ deployment:
       - git config --global user.email "cwq1913@163.com"
       - sed -i'' "s~https://github.com/Sanster/Sanster.github.io.git~https://${GH_TOKEN}:x-oauth-basic@github.com/Sanster/Sanster.github.io.git~" _config.yml
       - rm -rf .deploy_git/
-      - npm install
-      - hexo clean
-      - hexo generate
-      - hexo deploy
+      - ./node_modules/.bin/hexo clean
+      - ./node_modules/.bin/hexo generate
+      - ./node_modules/.bin/hexo deploy
