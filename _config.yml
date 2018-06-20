@@ -82,3 +82,6 @@ algolia:
   adminApiKey: 2e1ece0c494985a013f0088e6750fb61
   indexName: sanster_blog
   chunkSize: 5000
+
+markdown_it_plus:
+  breaks: false

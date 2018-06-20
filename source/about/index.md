@@ -6,8 +6,9 @@ comments: false
 
 ## Projects
 - [Text Renderer](https://github.com/Sanster/text_renderer): Generate text images for training deep learning ocr model.
-- [Tensorflow ctpn](https://github.com/Sanster/tf_ctpn)
-- [Tensorflow crnn](https://github.com/Sanster/tf_crnn)
+- [Tensorflow ctpn](https://github.com/Sanster/tf_ctpn): Tensorflow implemented text detecter.
+- [Tensorflow crnn](https://github.com/Sanster/tf_crnn): Tensorflow implemented text recognizer.
+- [git-dd](https://github.com/Sanster/git-dd): Git command to delete branches interactively.
 
 ## Books
 

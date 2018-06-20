@@ -10,7 +10,7 @@ hexo.extend.helper.register('page_anchor', function(str){
   if (!headings.length) return str;
 
   headings.each(function(){
-    var id = $(this).attr('id');
+    var id = $(this).find('span').attr('id');
 
     $(this)
       .addClass('article-heading')
