@@ -1,0 +1,612 @@
+<!doctype html>
+
+
+
+
+<html class="theme-next mist" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="CSS," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="css 的 box-shadow 参数可以为元素添加一个或多个阴影，例如按钮、卡片区域等，其参数如下： box-shadow: h-shadow v-shadow blur spread color inset;  h-shadow：阴影水平偏移量，如果是正数，则阴影在对象右侧，如果是负数，则阴影在对象左侧。 v-shadow：阴影垂直偏移量，如果是正数，则阴影在对象底部，如果是负数，则阴影在对象">
+<meta name="keywords" content="CSS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS-box-shadow">
+<meta property="og:url" content="http://sanster.github.io/2016/08/10/CSS-box-shadow/index.html">
+<meta property="og:site_name" content="Don&#39;t panic.">
+<meta property="og:description" content="css 的 box-shadow 参数可以为元素添加一个或多个阴影，例如按钮、卡片区域等，其参数如下： box-shadow: h-shadow v-shadow blur spread color inset;  h-shadow：阴影水平偏移量，如果是正数，则阴影在对象右侧，如果是负数，则阴影在对象左侧。 v-shadow：阴影垂直偏移量，如果是正数，则阴影在对象底部，如果是负数，则阴影在对象">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-06-20T08:08:36.974Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CSS-box-shadow">
+<meta name="twitter:description" content="css 的 box-shadow 参数可以为元素添加一个或多个阴影，例如按钮、卡片区域等，其参数如下： box-shadow: h-shadow v-shadow blur spread color inset;  h-shadow：阴影水平偏移量，如果是正数，则阴影在对象右侧，如果是负数，则阴影在对象左侧。 v-shadow：阴影垂直偏移量，如果是正数，则阴影在对象底部，如果是负数，则阴影在对象">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"remove"},
+    fancybox: true,
+    motion: false,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '8EDADDARD0',
+      apiKey: 'afa30ecd230482cacb572d98fd94e078',
+      indexName: 'sanster_blog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://sanster.github.io/2016/08/10/CSS-box-shadow/"/>
+
+
+
+
+
+  <title> CSS-box-shadow | Don't panic. </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-80882390-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Don't panic.</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Sanster's blog</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/categories_and_tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://sanster.github.io/2016/08/10/CSS-box-shadow/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Sanster">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/3998421?v=3&u=7c562bad73b08570778ef4dcbb1fd241c308dabd&s=400">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Don't panic.">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Don't panic." src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                CSS-box-shadow
+              
+            
+          </h1>
+          <h4 class="post-sub-title">
+              
+          </h4>
+        
+
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-08-10T21:05:39+00:00">
+                2016-08-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Frontend/" itemprop="url" rel="index">
+                    <span itemprop="name">Frontend</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <a href="/2016/08/10/CSS-box-shadow/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/08/10/CSS-box-shadow/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>css 的 box-shadow 参数可以为元素添加一个或多个阴影，例如按钮、卡片区域等，其参数如下：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><div class="line"><span class="selector-tag">box-shadow</span>: <span class="selector-tag">h-shadow</span> <span class="selector-tag">v-shadow</span> <span class="selector-tag">blur</span> <span class="selector-tag">spread</span> <span class="selector-tag">color</span> <span class="selector-tag">inset</span>;</div></pre></td></tr></table></figure>
+<ul>
+<li>h-shadow：阴影水平偏移量，如果是正数，则阴影在对象右侧，如果是负数，则阴影在对象左侧。</li>
+<li>v-shadow：阴影垂直偏移量，如果是正数，则阴影在对象底部，如果是负数，则阴影在对象顶部。</li>
+<li>blur：可选值，模糊距离。</li>
+<li>spread：可选值，阴影尺寸。</li>
+<li>color：可选值，阴影颜色。</li>
+<li>inset：可选值，将外部阴影 (outset) 改为内部阴影。</li>
+</ul>
+<p>可以在这里体验下不同参数的阴影效果：<a href="http://www.w3school.com.cn/tiy/c.asp?f=css_box-shadow&amp;p=7" target="_blank" rel="noopener">http://www.w3school.com.cn/tiy/c.asp?f=css_box-shadow&amp;p=7</a></p>
+<a id="more"></a>
+<p><a href="http://blog.csdn.net/freshlover/article/details/7610269" target="_blank" rel="noopener">这篇 Blog</a> 对于 box-shadow 的用法讲得很清楚，下面是根据这篇 Blog 写的 JSFiddle 的例子：</p>
+<iframe scrolling="no" width="100%" height="300px" src="//jsfiddle.net/12qmgnhw/embedded/html,css,result/dark" frameborder="0" allowfullscreen></iframe>
+<p>这里要注意 box-6 和 box-10，box-6 想要实现的效果是实现单边的阴影，但是可以看出 box-6 的顶部和底部还有一点红色的效果，这是因为 box 底部的阴影是四边都有的，h-shadow 的值只是将阴影向左移动了 10px 而已，上下还是可能溢出。溢出部分是红色的原因是红色的阴影处于最上层。</p>
+<p>要清除溢出的部分，最简单的方法是设置 <code>spread</code> 参数为负数，减小阴影的尺寸，即 box-10 的效果</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><div class="line"><span class="selector-class">.box-shadow-10</span>&#123;</div><div class="line">  <span class="attribute">box-shadow</span>:-<span class="number">10px</span> <span class="number">0</span> <span class="number">10px</span> -<span class="number">4px</span> red, <span class="comment">/*左边阴影*/</span></div><div class="line">  <span class="number">10px</span> <span class="number">0</span> <span class="number">10px</span> -<span class="number">4px</span> yellow, <span class="comment">/*右边阴影*/</span></div><div class="line">  <span class="number">0</span> -<span class="number">10px</span> <span class="number">10px</span> -<span class="number">4px</span> blue, <span class="comment">/*顶部阴影*/</span></div><div class="line">  <span class="number">0</span> <span class="number">10px</span> <span class="number">10px</span> -<span class="number">4px</span> green; <span class="comment">/*底边阴影*/</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>更详细的关于实现单边阴影的讨论可见这个<a href="http://stackoverflow.com/questions/5460129/drop-shadow-only-bottom-css3/24698566#24698566" target="_blank" rel="noopener">SOF Question</a>。</p>
+<p>参考链接：</p>
+<ul>
+<li><a href="http://www.w3school.com.cn/cssref/pr_box-shadow.asp" target="_blank" rel="noopener">http://www.w3school.com.cn/cssref/pr_box-shadow.asp</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CSS/" rel="tag"># CSS</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/08/html5-data-attributes/" rel="next" title="HTML5 data attributes">
+                <i class="fa fa-chevron-left"></i> HTML5 data attributes
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/19/django-cors-csrf/" rel="prev" title="Django 中的 CORS 和 CSRF">
+                Django 中的 CORS 和 CSRF <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sanster</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'sanstersblog';
+      var disqus_identifier = '2016/08/10/CSS-box-shadow/';
+
+      var disqus_title = "CSS-box-shadow";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

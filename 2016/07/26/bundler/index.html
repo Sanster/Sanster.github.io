@@ -1,0 +1,623 @@
+<!doctype html>
+
+
+
+
+<html class="theme-next mist" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Gems,Ruby," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="ruby 通过 Gem 包的方式来管理组件包，你可以在[这里]找到你所需的 Gem 包。一个 Ruby 项目如果需要依赖很多 Gem 包，管理所需的依赖包以一件很麻烦的事情，Bundler 便是一个可以用来管理 Gem 包的 Gem 包（有点绕口），大名鼎鼎的 Rails 其实也就是一个 Gem 包。">
+<meta name="keywords" content="Gems,Ruby">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Bundler">
+<meta property="og:url" content="http://sanster.github.io/2016/07/26/bundler/index.html">
+<meta property="og:site_name" content="Don&#39;t panic.">
+<meta property="og:description" content="ruby 通过 Gem 包的方式来管理组件包，你可以在[这里]找到你所需的 Gem 包。一个 Ruby 项目如果需要依赖很多 Gem 包，管理所需的依赖包以一件很麻烦的事情，Bundler 便是一个可以用来管理 Gem 包的 Gem 包（有点绕口），大名鼎鼎的 Rails 其实也就是一个 Gem 包。">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-06-20T08:08:36.974Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Bundler">
+<meta name="twitter:description" content="ruby 通过 Gem 包的方式来管理组件包，你可以在[这里]找到你所需的 Gem 包。一个 Ruby 项目如果需要依赖很多 Gem 包，管理所需的依赖包以一件很麻烦的事情，Bundler 便是一个可以用来管理 Gem 包的 Gem 包（有点绕口），大名鼎鼎的 Rails 其实也就是一个 Gem 包。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"remove"},
+    fancybox: true,
+    motion: false,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '8EDADDARD0',
+      apiKey: 'afa30ecd230482cacb572d98fd94e078',
+      indexName: 'sanster_blog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://sanster.github.io/2016/07/26/bundler/"/>
+
+
+
+
+
+  <title> Bundler | Don't panic. </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-80882390-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Don't panic.</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Sanster's blog</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/categories_and_tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://sanster.github.io/2016/07/26/bundler/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Sanster">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/3998421?v=3&u=7c562bad73b08570778ef4dcbb1fd241c308dabd&s=400">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Don't panic.">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Don't panic." src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Bundler
+              
+            
+          </h1>
+          <h4 class="post-sub-title">
+              
+          </h4>
+        
+
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-07-26T20:42:31+00:00">
+                2016-07-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Backend/" itemprop="url" rel="index">
+                    <span itemprop="name">Backend</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <a href="/2016/07/26/bundler/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/07/26/bundler/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>ruby 通过 Gem 包的方式来管理组件包，你可以在[这里]找到你所需的 Gem 包。一个 Ruby 项目如果需要依赖很多 Gem 包，管理所需的依赖包以一件很麻烦的事情，<a href="http://bundler.io/" target="_blank" rel="noopener">Bundler</a> 便是一个可以用来管理 Gem 包的 Gem 包（有点绕口），大名鼎鼎的 <a href="https://github.com/rails/rails" target="_blank" rel="noopener">Rails</a> 其实也就是一个 Gem 包。</p>
+<a id="more"></a>
+<h1 class="article-heading"><a class="article-anchor" href="#定义-gemfile" aria-hidden="true"></a><span id="定义-gemfile"> 定义 Gemfile</span></h1>
+<p>像所有 Gem 包一样，可以通过如下命令安装 Bundler：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">gem install bundler</div></pre></td></tr></table></figure>
+<p>然后你需要在你的 Ruby 项目中添加一个 <strong>Gemfile</strong> 文件，该文件用来管理这个项目所需的所有 Gem 包，Rails 程序初始化时会自动创建 <strong>Gemfile</strong> 文件。一个简单的 <strong>Gemfile</strong> 文件看起来是这样的：</p>
+<figure class="highlight ruby"><table><tr><td class="code"><pre><div class="line"><span class="comment">#1</span></div><div class="line">source  <span class="string">'https://rubygems.org'</span></div><div class="line">gem ‘nokogiri’</div><div class="line"><span class="comment">#2</span></div><div class="line">gem ‘rack’, ‘~&gt;<span class="number">1.1</span>’</div><div class="line"><span class="comment">#3</span></div><div class="line">gem ‘rspec’, <span class="symbol">:require</span> =&gt; ‘spec’</div></pre></td></tr></table></figure>
+<ol>
+<li>定义 Gem 包的下载源（国内可以用<a href="https://ruby.taobao.org/" target="_blank" rel="noopener">淘宝</a>的源）</li>
+<li>定义所需 Gem 包的名称和版本，如果没有定义的话，模式会使用最新的版本。</li>
+<li>定义 Gem 包的依赖关系，bundler 会进行解析，并将所有依赖的 Gem 都下载下来。</li>
+</ol>
+<p>某些情况下，可能需要使用某个 Gem 包未正式发布的代码，这时有两种选择：</p>
+<ol>
+<li>指定 Gem 包的 git 仓库以及其分支</li>
+</ol>
+<figure class="highlight ruby"><table><tr><td class="code"><pre><div class="line">gem <span class="string">'nokogiri'</span>, <span class="symbol">:git</span> =&gt; <span class="string">'https://github.com/tenderlove/nokogiri.git'</span>, <span class="symbol">:branch</span> =&gt; <span class="string">'1.4'</span></div></pre></td></tr></table></figure>
+<ol start="2">
+<li>将 Gem 包代码下载到本地，通过路径加载</li>
+</ol>
+<figure class="highlight ruby"><table><tr><td class="code"><pre><div class="line">gem <span class="string">'extracted_library'</span>, <span class="symbol">:path</span> =&gt; <span class="string">'./vendor/extracted_library</span></div></pre></td></tr></table></figure>
+<p>有些 Gem 包可能只是开发环境上用于调试使用，而生产环境上是不需要的，可以通过 <strong>Group</strong> 的形式来区分：</p>
+<figure class="highlight elixir"><table><tr><td class="code"><pre><div class="line">group <span class="symbol">:development</span> <span class="keyword">do</span></div><div class="line">  gem <span class="string">'ffaker'</span></div><div class="line">  ...</div><div class="line"><span class="keyword">end</span></div></pre></td></tr></table></figure>
+<h1 class="article-heading"><a class="article-anchor" href="#使用-bundle-install-安装-gem-包" aria-hidden="true"></a><span id="使用-bundle-install-安装-gem-包"> 使用 bundle install 安装 Gem 包</span></h1>
+<p>定义好 Gemfile 后，即可执行 <a href="http://bundler.io/v1.12/man/bundle-install.1.html" target="_blank" rel="noopener">bundle install</a> 命令安装所需的 Gem 包，如果是第一次运行，在与 Gemfile 相同的目录下会产生一个 <strong>Gemfile.lock</strong> 文件，该文件会记录 Gemfile 文件中每一个 Gem 包解析出来的具体版本和依赖。<strong>Gemfile.lock</strong> 文件的意义在于：如果别人运行你的程序，那 <code>bundle install</code> 命令会先检测是否存在 Gemfile.lock 文件，如果存在，则不会去重新解析 Gemfile 文件（Gemfile文件未修改的话），而是根据 Gemfile.lock 文件下载依赖，这样就能保证程序在不同的机子上不会因为某个 Gem 包更新了版本之类的情况导致各种莫名的问题。</p>
+<h1 class="article-heading"><a class="article-anchor" href="#使用-bundle-update-更新-gem-包" aria-hidden="true"></a><span id="使用-bundle-update-更新-gem-包"> 使用 bundle update 更新 Gem 包</span></h1>
+<p>如果想更新 Gemfile.lock 中的 Gem 版本，直接修改 Gemfile 中的 Gem 版本，再执行 bundle install 命令，这时会提示 Gem 包的版本已经被锁定在了 x.x.x，如：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><div class="line"><span class="selector-tag">The</span> <span class="selector-tag">bundle</span> <span class="selector-tag">currently</span> <span class="selector-tag">has</span> <span class="selector-tag">rails</span> <span class="selector-tag">locked</span> <span class="selector-tag">at</span> 4<span class="selector-class">.2</span><span class="selector-class">.7</span>.</div></pre></td></tr></table></figure>
+<p>这时可以执行[bundle update]来更新 Gem 包的版本。</p>
+<h1 class="article-heading"><a class="article-anchor" href="#使用-bundle-exec-执行任务" aria-hidden="true"></a><span id="使用-bundle-exec-执行任务"> 使用 bundle exec 执行任务</span></h1>
+<p>Gemfile 中定义的 Gem 包是如何应用到你的程序当中的呢？使用 <a href="http://bundler.io/v1.12/man/bundle-exec.1.html" target="_blank" rel="noopener">bundle exec</a> 命令执行程序会将环境变量设置好，使用 Gemfile 里指定的 Gem 包来运行你的程序，这样就保证了在不同环境下执行程序时，总会使用指定的 Gem 包版本来执行某个操作。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Gems/" rel="tag"># Gems</a>
+          
+            <a href="/tags/Ruby/" rel="tag"># Ruby</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/17/iTerm2使用技巧/" rel="next" title="iTerm2使用技巧">
+                <i class="fa fa-chevron-left"></i> iTerm2使用技巧
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/06/js-getElementBy/" rel="prev" title="javascript 通过变量改变元素属性值">
+                javascript 通过变量改变元素属性值 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sanster</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'sanstersblog';
+      var disqus_identifier = '2016/07/26/bundler/';
+
+      var disqus_title = "Bundler";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

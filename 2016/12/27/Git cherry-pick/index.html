@@ -1,0 +1,607 @@
+<!doctype html>
+
+
+
+
+<html class="theme-next mist" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Git," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="git cherry-pick 命令可以用来挑选其他分支的 commit 合入当前分支： git cherry-pick [节点号] git 会计算目标节点与其 parent 节点之间的 diff，并使用该 diff 在当前分支上重新创建一个 commit（所以节点号会发生变化），其 Author 与原节点号相同，Commit 会变成执行 cherry-pick 命令的人，可以使用 git log">
+<meta name="keywords" content="Git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git cherry-pick">
+<meta property="og:url" content="http://sanster.github.io/2016/12/27/Git cherry-pick/index.html">
+<meta property="og:site_name" content="Don&#39;t panic.">
+<meta property="og:description" content="git cherry-pick 命令可以用来挑选其他分支的 commit 合入当前分支： git cherry-pick [节点号] git 会计算目标节点与其 parent 节点之间的 diff，并使用该 diff 在当前分支上重新创建一个 commit（所以节点号会发生变化），其 Author 与原节点号相同，Commit 会变成执行 cherry-pick 命令的人，可以使用 git log">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-06-20T08:08:36.974Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Git cherry-pick">
+<meta name="twitter:description" content="git cherry-pick 命令可以用来挑选其他分支的 commit 合入当前分支： git cherry-pick [节点号] git 会计算目标节点与其 parent 节点之间的 diff，并使用该 diff 在当前分支上重新创建一个 commit（所以节点号会发生变化），其 Author 与原节点号相同，Commit 会变成执行 cherry-pick 命令的人，可以使用 git log">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"remove"},
+    fancybox: true,
+    motion: false,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '8EDADDARD0',
+      apiKey: 'afa30ecd230482cacb572d98fd94e078',
+      indexName: 'sanster_blog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://sanster.github.io/2016/12/27/Git cherry-pick/"/>
+
+
+
+
+
+  <title> Git cherry-pick | Don't panic. </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-80882390-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Don't panic.</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Sanster's blog</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/categories_and_tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://sanster.github.io/2016/12/27/Git cherry-pick/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Sanster">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/3998421?v=3&u=7c562bad73b08570778ef4dcbb1fd241c308dabd&s=400">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Don't panic.">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Don't panic." src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Git cherry-pick
+              
+            
+          </h1>
+          <h4 class="post-sub-title">
+              
+          </h4>
+        
+
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-27T15:27:48+00:00">
+                2016-12-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tools/" itemprop="url" rel="index">
+                    <span itemprop="name">Tools</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <a href="/2016/12/27/Git cherry-pick/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/12/27/Git cherry-pick/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>git cherry-pick 命令可以用来挑选其他分支的 commit 合入当前分支：</p>
+<figure class="highlight accesslog"><table><tr><td class="code"><pre><div class="line">git cherry-pick <span class="string">[节点号]</span></div></pre></td></tr></table></figure>
+<p>git 会计算目标节点与其 parent 节点之间的 diff，并使用该 diff 在当前分支上重新创建一个 commit（所以节点号会发生变化），其 Author 与原节点号相同，Commit 会变成执行 cherry-pick 命令的人，可以使用 git log --pretty=fuller 查看 Author 和 Commit：</p>
+<figure class="highlight avrasm"><table><tr><td class="code"><pre><div class="line">commit <span class="number">9</span>cfe5103141ae22c8e4ca98715e526fe094f99b8</div><div class="line"><span class="symbol">Author:</span>     user1 &lt;user1@email.com&gt;</div><div class="line"><span class="symbol">AuthorDate:</span> Mon <span class="keyword">Dec</span> <span class="number">19</span> <span class="number">09</span>:<span class="number">00</span>:<span class="number">29</span> <span class="number">2016</span> +<span class="number">0800</span></div><div class="line"><span class="symbol">Commit:</span>     user2 &lt;user2@email.com&gt;</div><div class="line"><span class="symbol">CommitDate:</span> Mon <span class="keyword">Dec</span> <span class="number">19</span> <span class="number">09</span>:<span class="number">20</span>:<span class="number">29</span> <span class="number">2016</span> +<span class="number">0800</span></div></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>如果 cherry-pick 的是一个 merge 节点，git 会给出以下提示，提示中显示要加上 -m 参数：</p>
+<figure class="highlight subunit"><table><tr><td class="code"><pre><div class="line"><span class="keyword">error: </span>Commit xxxxxx is a merge but no -m option was given.</div><div class="line">fatal: cherry-pick failed</div></pre></td></tr></table></figure>
+<p>merge 节点会有两个或两个以上的父节点：</p>
+<figure class="highlight routeros"><table><tr><td class="code"><pre><div class="line">commit 4b3b817a2f322209cfe5c502d4a98359a59aea6b</div><div class="line">Merge: 9cdbc2c 1f7c0ec</div><div class="line">Author:<span class="built_in"> user </span>&lt;user@email.com&gt;</div></pre></td></tr></table></figure>
+<p>执行 cherry-pick 命令时 git 无法确定目标 merge 节点与其哪一个父节点比较，这个父节点即可通过 <code>-m</code> 参数指定：</p>
+<figure class="highlight lsl"><table><tr><td class="code"><pre><div class="line">git cherry-pick -m <span class="number">1</span> <span class="number">4</span>b3b817a2f322209cfe5c502d4a98359a59aea6b</div></pre></td></tr></table></figure>
+<p>-m 后面跟的是一个数字，表示第几个父节点，对于上面的例子，<code>1f7c0ec</code> 为第一个父节点，<code>9cdbc2c</code> 为第二个父节点。</p>
+<p>参考链接：</p>
+<ul>
+<li><a href="https://git-scm.com/docs/git-cherry-pick" target="_blank" rel="noopener">https://git-scm.com/docs/git-cherry-pick</a></li>
+<li><a href="http://stackoverflow.com/questions/9229301/git-cherry-pick-says-38c74d-is-a-merge-but-no-m-option-was-given" target="_blank" rel="noopener">http://stackoverflow.com/questions/9229301/git-cherry-pick-says-38c74d-is-a-merge-but-no-m-option-was-given</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Git/" rel="tag"># Git</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/27/windows 下 git 分支名大小写问题/" rel="next" title="windows 下 git 分支名大小写问题">
+                <i class="fa fa-chevron-left"></i> windows 下 git 分支名大小写问题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/01/02/javascript-IIFEs/" rel="prev" title="javascript 中的 IIFEs">
+                javascript 中的 IIFEs <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sanster</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'sanstersblog';
+      var disqus_identifier = '2016/12/27/Git cherry-pick/';
+
+      var disqus_title = "Git cherry-pick";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

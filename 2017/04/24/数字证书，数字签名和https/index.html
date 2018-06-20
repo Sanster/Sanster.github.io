@@ -1,0 +1,631 @@
+<!doctype html>
+
+
+
+
+<html class="theme-next mist" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="HTTPS,Certificate Authority,Digital Signature," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="对于数字证书、数字签名的概念一直很模糊，虽然网上看了很多文章，但是自己脑子里想完整地梳理一遍的时候就还是乱乱的，所以动手整理了下，在写作的过程中各个概念之间的关系慢慢变得清晰了。  公钥、私钥和数字签名 首先是公钥和私钥的概念。公钥（Public Key）和私钥（Private Key）是一对使用特定加密算法产生的密钥对（两串字符串），可以使用 OpenSSL 或者 OpenSSH 的 ssh-k">
+<meta name="keywords" content="HTTPS,Certificate Authority,Digital Signature">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数字签名、数字证书和 HTTPS">
+<meta property="og:url" content="http://sanster.github.io/2017/04/24/数字证书，数字签名和https/index.html">
+<meta property="og:site_name" content="Don&#39;t panic.">
+<meta property="og:description" content="对于数字证书、数字签名的概念一直很模糊，虽然网上看了很多文章，但是自己脑子里想完整地梳理一遍的时候就还是乱乱的，所以动手整理了下，在写作的过程中各个概念之间的关系慢慢变得清晰了。  公钥、私钥和数字签名 首先是公钥和私钥的概念。公钥（Public Key）和私钥（Private Key）是一对使用特定加密算法产生的密钥对（两串字符串），可以使用 OpenSSL 或者 OpenSSH 的 ssh-k">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://sanster.github.io/images/GitHub_cert.png">
+<meta property="og:image" content="http://sanster.github.io/images/https.png">
+<meta property="og:updated_time" content="2018-06-20T08:08:36.974Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数字签名、数字证书和 HTTPS">
+<meta name="twitter:description" content="对于数字证书、数字签名的概念一直很模糊，虽然网上看了很多文章，但是自己脑子里想完整地梳理一遍的时候就还是乱乱的，所以动手整理了下，在写作的过程中各个概念之间的关系慢慢变得清晰了。  公钥、私钥和数字签名 首先是公钥和私钥的概念。公钥（Public Key）和私钥（Private Key）是一对使用特定加密算法产生的密钥对（两串字符串），可以使用 OpenSSL 或者 OpenSSH 的 ssh-k">
+<meta name="twitter:image" content="http://sanster.github.io/images/GitHub_cert.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"remove"},
+    fancybox: true,
+    motion: false,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '8EDADDARD0',
+      apiKey: 'afa30ecd230482cacb572d98fd94e078',
+      indexName: 'sanster_blog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://sanster.github.io/2017/04/24/数字证书，数字签名和https/"/>
+
+
+
+
+
+  <title> 数字签名、数字证书和 HTTPS | Don't panic. </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-80882390-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Don't panic.</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Sanster's blog</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/categories_and_tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://sanster.github.io/2017/04/24/数字证书，数字签名和https/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Sanster">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/3998421?v=3&u=7c562bad73b08570778ef4dcbb1fd241c308dabd&s=400">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Don't panic.">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Don't panic." src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                数字签名、数字证书和 HTTPS
+              
+            
+          </h1>
+          <h4 class="post-sub-title">
+              
+          </h4>
+        
+
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-24T20:18:54+00:00">
+                2017-04-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web/" itemprop="url" rel="index">
+                    <span itemprop="name">Web</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <a href="/2017/04/24/数字证书，数字签名和https/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/04/24/数字证书，数字签名和https/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>对于数字证书、数字签名的概念一直很模糊，虽然网上看了很多文章，但是自己脑子里想完整地梳理一遍的时候就还是乱乱的，所以动手整理了下，在写作的过程中各个概念之间的关系慢慢变得清晰了。</p>
+<h1 class="article-heading"><a class="article-anchor" href="#公钥-私钥和数字签名" aria-hidden="true"></a><span id="公钥-私钥和数字签名"> 公钥、私钥和数字签名</span></h1>
+<p>首先是公钥和私钥的概念。公钥（Public Key）和私钥（Private Key）是一对使用特定加密算法产生的密钥对（两串字符串），可以使用 <a href="https://zh.wikipedia.org/wiki/OpenSSL" target="_blank" rel="noopener">OpenSSL</a> 或者 OpenSSH 的 ssh-keygen 工具生成。公钥和私钥都可以用来加密数据，经过私钥加密的数据，只有通过公钥才可以解密出来，反之亦然。</p>
+<a id="more"></a>
+<p>私钥自己保留，公钥用于发放给别人。为什么要发给别人呢？因为这样就可以实现和对方之间的加密通讯，过程如下：</p>
+<ul>
+<li>Susan 有 Bob 的公钥，在给 Bob 发消息前使用公钥对消息进行加密，这样就只有拥有私钥的 Bob 才可以解密消息。</li>
+<li>Bob 使用他的私钥可以在数据上进行数字签名，即先将要发送的数据进行 Hash 运算，然后使用私钥加密 Hash 运行的结果，最后加密的结果就是叫数字签名（Digital Signature）。</li>
+<li>Bob 把数字签名随同数据一起发给 Susan，Susan 通过 Bob 的公钥可以获得两个信息：
+1 - 如果使用公钥成功解密数字签名，则说明这个信息确实是通过 Bob 的私钥加密的
+2 - 对传输的数据进行 Hash 运算，如果结果与解密出来的 Hash 值一致，则说明数据没有被篡改过。</li>
+</ul>
+<blockquote>
+<p><a href="https://zh.wikipedia.org/wiki/%E6%95%A3%E5%88%97%E5%87%BD%E6%95%B8" target="_blank" rel="noopener">Hash 算法</a>会将数据变成一段固定长度的 message digest，且不同的原始数据经过运算后会产生截然不同的结果，可以认为不存在使用不同的原始数据来伪造相同的 hash 值的情况。</p>
+</blockquote>
+<p>如果按照以上的流程，Bob 向 Susan 发送的数据是没有加密的（即使用私钥加密了数据，别人也能用公钥解开），那如何保证数据不被窃取呢？具体的例子可以看 HTTPS 一节的介绍。</p>
+<h1 class="article-heading"><a class="article-anchor" href="#中间人攻击与数字证书" aria-hidden="true"></a><span id="中间人攻击与数字证书"> 中间人攻击与数字证书</span></h1>
+<p>上文中的加密通讯是在 Susan 正确获得 Bob 公钥的前提下进行的，如果 Susan 和 Bob 的通讯被 Doug 拦截，Doug 将 Bob 发给 Susan 的公钥替换成自己的公钥（至于替换的方式我们先不管），这样 Susan 就会认为 Doug 是 Bob，把原本要发给 Bob 的消息使用 Doug 的公钥加密并发送，Doug 收到后可以用自己的私钥解密，获得数据内容，然后再用 Bob 的公钥加密发送给 Bob，Bob 会认为这些信息是 Susan 发过来的。在这个过程中 Doug 可以任意篡改信息，Doug 就是在进行中间人攻击。</p>
+<p>数字证书（Digital Certificate）就是用来确保 Susan 拿到的确实是 Bob 的公钥，而不是中间人 Doug 的。数字证书是由 Certificate Authority（CA）机构颁发的，所谓数字证书就是 CA 机构使用自己的私钥，对 Bob 的公钥和一些相关信息（如国家、公司、域名）一起加密的结果，CA 机构在颁发证书前会有一套严格的流程来确保相关信息的准确性。以网站来举例，Github 证书经过 CA 公钥解密后获得的一定就是 Github 的公钥。知名 CA 机构的根证书会内置于游览器中，用来确保 CA 机构本身的身份，其中就包含了 CA 机构自身的公钥。有了证书以后，网站发送信息只要附带上自己的证书，就能证明自己的身份。下图是使用 Chrome 查看 Github 的证书：</p>
+<p><img src="/images/GitHub_cert.png" alt="GitHub Cert"></p>
+<h1 class="article-heading"><a class="article-anchor" href="#https" aria-hidden="true"></a><span id="https"> HTTPS</span></h1>
+<p>那么 HTTPS 与数字证书之间是什么关系呢？网上找了一张介绍 HTTPS 的流程图，如果前面的概念都理解了的话，那一看这个流程图就能大概了解 HTTPS 是怎么回事了。</p>
+<p><img src="/images/https.png" alt="https"></p>
+<p>图中的第四步中 <code>validata crt</code> 我理解就是使用 CA 的公钥验证服务器端发送的证书的有效性，如颁发机构是否有效、证书中的域名和访问的域名是否一致、证书是否过期、是否被吊销等。如果证书有问题，游览器会给出警告。如果证书有效，客户端会产生一个随机字符，并使用从证书中获得的服务器端公钥加密后传输给服务器，这个信息只有服务器端的私钥才能解密，服务器端解密获得了随机字符后，便使用该随机字符对发送出去的内容进行<a href="https://zh.wikipedia.org/wiki/%E5%B0%8D%E7%A8%B1%E5%AF%86%E9%91%B0%E5%8A%A0%E5%AF%86" target="_blank" rel="noopener">对称加密</a>，服务器端就可以使用相同的随机字符进行解密，这样就实现了加密通讯。</p>
+<p>从上面的过程看，HTTPS 通讯是有一定性能损耗的，但毕竟更安全了嘛。</p>
+<p>参考链接：</p>
+<ul>
+<li><a href="http://www.ruanyifeng.com/blog/2011/08/what_is_a_digital_signature.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2011/08/what_is_a_digital_signature.html</a></li>
+<li><a href="http://www.youdzone.com/signature.html" target="_blank" rel="noopener">http://www.youdzone.com/signature.html</a></li>
+<li><a href="https://jamielinux.com/docs/openssl-certificate-authority/index.html" target="_blank" rel="noopener">https://jamielinux.com/docs/openssl-certificate-authority/index.html</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/%E4%B8%AD%E9%97%B4%E4%BA%BA%E6%94%BB%E5%87%BB" target="_blank" rel="noopener">https://zh.wikipedia.org/wiki/中间人攻击</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/%E5%85%AC%E5%BC%80%E5%AF%86%E9%92%A5%E5%8A%A0%E5%AF%86" target="_blank" rel="noopener">https://zh.wikipedia.org/wiki/公开密钥加密</a></li>
+<li><a href="http://www.jianshu.com/p/671e3cf26974" target="_blank" rel="noopener">http://www.jianshu.com/p/671e3cf26974</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/HTTPS/" rel="tag"># HTTPS</a>
+          
+            <a href="/tags/Certificate-Authority/" rel="tag"># Certificate Authority</a>
+          
+            <a href="/tags/Digital-Signature/" rel="tag"># Digital Signature</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/23/git-appraise/" rel="next" title="Google's Distributed Code Review Tool For Git">
+                <i class="fa fa-chevron-left"></i> Google's Distributed Code Review Tool For Git
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/28/how-https-works/" rel="prev" title="Https 工作流程">
+                Https 工作流程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sanster</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'sanstersblog';
+      var disqus_identifier = '2017/04/24/数字证书，数字签名和https/';
+
+      var disqus_title = "数字签名、数字证书和 HTTPS";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

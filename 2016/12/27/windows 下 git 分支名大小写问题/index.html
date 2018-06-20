@@ -1,0 +1,623 @@
+<!doctype html>
+
+
+
+
+<html class="theme-next mist" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Git," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="问题 最近遇到了一个由于 window 不区分大小写导致的 git 分支问题。 在出错的仓库里执行 git branch(git bash中) 查看目前的分支： xxxxxxxx MINGW64 /d/test_git (r/234)$git branch R/123 R/234 master 可以看到，git bash 中显示，当前分支为 r/234，但是在 git branch 的输出中却没">
+<meta name="keywords" content="Git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="windows 下 git 分支名大小写问题">
+<meta property="og:url" content="http://sanster.github.io/2016/12/27/windows 下 git 分支名大小写问题/index.html">
+<meta property="og:site_name" content="Don&#39;t panic.">
+<meta property="og:description" content="问题 最近遇到了一个由于 window 不区分大小写导致的 git 分支问题。 在出错的仓库里执行 git branch(git bash中) 查看目前的分支： xxxxxxxx MINGW64 /d/test_git (r/234)$git branch R/123 R/234 master 可以看到，git bash 中显示，当前分支为 r/234，但是在 git branch 的输出中却没">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-06-20T08:08:36.974Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="windows 下 git 分支名大小写问题">
+<meta name="twitter:description" content="问题 最近遇到了一个由于 window 不区分大小写导致的 git 分支问题。 在出错的仓库里执行 git branch(git bash中) 查看目前的分支： xxxxxxxx MINGW64 /d/test_git (r/234)$git branch R/123 R/234 master 可以看到，git bash 中显示，当前分支为 r/234，但是在 git branch 的输出中却没">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"remove"},
+    fancybox: true,
+    motion: false,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '8EDADDARD0',
+      apiKey: 'afa30ecd230482cacb572d98fd94e078',
+      indexName: 'sanster_blog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://sanster.github.io/2016/12/27/windows 下 git 分支名大小写问题/"/>
+
+
+
+
+
+  <title> windows 下 git 分支名大小写问题 | Don't panic. </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-80882390-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Don't panic.</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Sanster's blog</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/categories_and_tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://sanster.github.io/2016/12/27/windows 下 git 分支名大小写问题/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Sanster">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/3998421?v=3&u=7c562bad73b08570778ef4dcbb1fd241c308dabd&s=400">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Don't panic.">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Don't panic." src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                windows 下 git 分支名大小写问题
+              
+            
+          </h1>
+          <h4 class="post-sub-title">
+              
+          </h4>
+        
+
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-27T09:38:48+00:00">
+                2016-12-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tools/" itemprop="url" rel="index">
+                    <span itemprop="name">Tools</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <a href="/2016/12/27/windows 下 git 分支名大小写问题/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/12/27/windows 下 git 分支名大小写问题/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 class="article-heading"><a class="article-anchor" href="#问题" aria-hidden="true"></a><span id="问题"> 问题</span></h1>
+<p>最近遇到了一个由于 window 不区分大小写导致的 git 分支问题。</p>
+<p>在出错的仓库里执行 git branch(git bash中) 查看目前的分支：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">xxxxxxxx MINGW64 /d/test_git (r/234)</div><div class="line"><span class="variable">$git</span> branch</div><div class="line"> R/123</div><div class="line"> R/234</div><div class="line"> master</div></pre></td></tr></table></figure>
+<p>可以看到，git bash 中显示，当前分支为 <code>r/234</code>，但是在 git branch 的输出中却没有，只有以大写开头的 <code>R/234</code>。</p>
+<p>当想要 push 当前分支时会提示如下错误：</p>
+<figure class="highlight vim"><table><tr><td class="code"><pre><div class="line">$ git push origin r/<span class="number">234</span></div><div class="line">fata<span class="variable">l:</span> r/<span class="number">234</span> cannot <span class="keyword">be</span> resolved <span class="keyword">to</span> branch</div><div class="line">fata<span class="variable">l:</span> The remote end hung <span class="keyword">up</span> unexpectedly</div></pre></td></tr></table></figure>
+<p>git 提示你分支 <code>r/234</code> 不存在。</p>
+<a id="more"></a>
+<h1 class="article-heading"><a class="article-anchor" href="#复现" aria-hidden="true"></a><span id="复现"> 复现</span></h1>
+<p>1、准备测试 git 工程环境：</p>
+<figure class="highlight dockerfile"><table><tr><td class="code"><pre><div class="line">mkdir test_git</div><div class="line">cd test_git</div><div class="line">git init</div><div class="line">touch readme</div><div class="line">git <span class="keyword">add</span><span class="bash"> .</span></div><div class="line"><span class="bash">git commit -m <span class="string">"test"</span></span></div></pre></td></tr></table></figure>
+<p>2、 从 master 分支拉一个大写开头的分支：</p>
+<figure class="highlight stylus"><table><tr><td class="code"><pre><div class="line">git checkout -<span class="selector-tag">b</span> R/<span class="number">123</span></div></pre></td></tr></table></figure>
+<p>这时的 git branch 输出是正常的，* 号显示出了当前所在的分支：</p>
+<figure class="highlight gams"><table><tr><td class="code"><pre><div class="line">xxxxxxxx MINGW64 /d/test_git (R/<span class="number">123</span>)</div><div class="line"><span class="meta"><span class="meta-keyword">$git</span> branch</span></div><div class="line"><span class="comment">* R/123</span></div><div class="line">  master</div></pre></td></tr></table></figure>
+<p>3、 切换回 master 分支，再创建一个以小写开头的分支：</p>
+<figure class="highlight stylus"><table><tr><td class="code"><pre><div class="line">git checkout -<span class="selector-tag">b</span> r/<span class="number">234</span></div></pre></td></tr></table></figure>
+<p>这时再查看分支就出现了开头所说的问题！</p>
+<h1 class="article-heading"><a class="article-anchor" href="#why" aria-hidden="true"></a><span id="why"> Why？</span></h1>
+<p>Git 的分支是以文件形式保存在 <code>.git/refs/heads</code> 目录下的，每一个分支文件中记录着所指向的 commit 节点号。对于我们的测试项目，<code>.git/refs/heads</code> 的目录内容是这样的：</p>
+<figure class="highlight gherkin"><table><tr><td class="code"><pre><div class="line">refs</div><div class="line">|<span class="string">__heads</span></div><div class="line"><span class="string">   </span>|_R</div><div class="line">   |<span class="string"> </span>|_123</div><div class="line">   |<span class="string"> </span>|_234</div><div class="line">   |<span class="string">_master</span></div></pre></td></tr></table></figure>
+<p>创建分支时，如果名称中不包含<code>/</code>符号，git 就会直接在 heads 目录下创建一个对应的分支文件，如 master 分支。否则，git 会先创建一个文件夹，再将 / 后面的字符作为分支文件名称保存，如果存在多个 / 的话则会创建多层文件夹。</p>
+<p>在之前的操作中，我们先创建了 <strong>R/123</strong> 分支，git 就创建了对应的 R 文件夹，后面再创建 <strong>r/234</strong> 分支时，正确的姿势应该是创建一个 r 文件夹，但是**在 windows 下，文件夹名称不区分大小写！**这就导致了我们的分支文件直接创建在了 R 目录下，所以执行 git branch 命令时并没有显示 r/234 分支，而是显示 <strong>R/234</strong>。</p>
+<h1 class="article-heading"><a class="article-anchor" href="#解决问题" aria-hidden="true"></a><span id="解决问题"> 解决问题</span></h1>
+<p>知道了原因以后修正起来就方便了，可以直接在 <code>.git/refs/heads</code> 目录下按照你想要的方式修改文件夹/文件名，或者删了分支文件，重新拉一个分支都可以。</p>
+<h1 class="article-heading"><a class="article-anchor" href="#补充内容" aria-hidden="true"></a><span id="补充内容"> 补充内容</span></h1>
+<p>在 windows 中创建大小写同名分支时，如果分支名中不包含 / 的话，git 会提示相同的分支已经存在:</p>
+<figure class="highlight stylus"><table><tr><td class="code"><pre><div class="line">git checkout -<span class="selector-tag">b</span> test</div><div class="line">Switched to <span class="selector-tag">a</span> new branch <span class="string">'test'</span></div><div class="line"></div><div class="line">git checkout -<span class="selector-tag">b</span> TEST</div><div class="line">fatal: A branch named <span class="string">'TEST'</span> already exists.</div></pre></td></tr></table></figure>
+<p>参考链接：</p>
+<ul>
+<li><a href="http://stackoverflow.com/questions/15371866/why-is-git-capitalizing-my-branch-name-prefix" target="_blank" rel="noopener">http://stackoverflow.com/questions/15371866/why-is-git-capitalizing-my-branch-name-prefix</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Git/" rel="tag"># Git</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/15/html-element/" rel="next" title="HTML 中的块级元素和行内元素">
+                <i class="fa fa-chevron-left"></i> HTML 中的块级元素和行内元素
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/12/27/Git cherry-pick/" rel="prev" title="Git cherry-pick">
+                Git cherry-pick <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sanster</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'sanstersblog';
+      var disqus_identifier = '2016/12/27/windows 下 git 分支名大小写问题/';
+
+      var disqus_title = "windows 下 git 分支名大小写问题";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

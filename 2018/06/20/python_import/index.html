@@ -1,0 +1,716 @@
+<!doctype html>
+
+
+
+
+<html class="theme-next mist" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Python," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="原文：The Definitive Guide to Python import Statements 一直对 Python 的 import 机制感到很混乱，这篇 blog 通过一个示例项目涵盖在 python3 中 import 机制的各种情况。 示例项目地址：https://github.com/Sanster/python_import_example python_import_exam">
+<meta name="keywords" content="Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python import 机制">
+<meta property="og:url" content="http://sanster.github.io/2018/06/20/python_import/index.html">
+<meta property="og:site_name" content="Don&#39;t panic.">
+<meta property="og:description" content="原文：The Definitive Guide to Python import Statements 一直对 Python 的 import 机制感到很混乱，这篇 blog 通过一个示例项目涵盖在 python3 中 import 机制的各种情况。 示例项目地址：https://github.com/Sanster/python_import_example python_import_exam">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-06-20T08:08:36.974Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python import 机制">
+<meta name="twitter:description" content="原文：The Definitive Guide to Python import Statements 一直对 Python 的 import 机制感到很混乱，这篇 blog 通过一个示例项目涵盖在 python3 中 import 机制的各种情况。 示例项目地址：https://github.com/Sanster/python_import_example python_import_exam">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"remove"},
+    fancybox: true,
+    motion: false,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '8EDADDARD0',
+      apiKey: 'afa30ecd230482cacb572d98fd94e078',
+      indexName: 'sanster_blog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://sanster.github.io/2018/06/20/python_import/"/>
+
+
+
+
+
+  <title> Python import 机制 | Don't panic. </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-80882390-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Don't panic.</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Sanster's blog</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/categories_and_tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://sanster.github.io/2018/06/20/python_import/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Sanster">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/3998421?v=3&u=7c562bad73b08570778ef4dcbb1fd241c308dabd&s=400">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Don't panic.">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Don't panic." src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Python import 机制
+              
+            
+          </h1>
+          <h4 class="post-sub-title">
+              
+          </h4>
+        
+
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-20T10:02:00+00:00">
+                2018-06-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Language/" itemprop="url" rel="index">
+                    <span itemprop="name">Language</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <a href="/2018/06/20/python_import/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/06/20/python_import/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>原文：<a href="https://chrisyeh96.github.io/2017/08/08/definitive-guide-python-imports.html" target="_blank" rel="noopener">The Definitive Guide to Python import Statements</a></p>
+<p>一直对 Python 的 import 机制感到很混乱，这篇 blog 通过一个示例项目涵盖在 python3 中 import 机制的各种情况。</p>
+<p>示例项目地址：<a href="https://github.com/Sanster/python_import_example" target="_blank" rel="noopener">https://github.com/Sanster/python_import_example</a></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">python_import_example</div><div class="line">├── packA</div><div class="line">│   ├── a1.py</div><div class="line">│   ├── a2.py</div><div class="line">│   ├── __init__.py</div><div class="line">│   └── subA</div><div class="line">│       ├── __init__.py</div><div class="line">│       ├── sa1.py</div><div class="line">│       └── sa2.py</div><div class="line">├── packB</div><div class="line">│   ├── b1.py</div><div class="line">│   └── b2.py</div><div class="line">├── other.py</div><div class="line">├── math.py</div><div class="line">├── random.py</div><div class="line">├── README.md</div><div class="line">└── start.py</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<p></p>
+<h1 class="article-heading"><a class="article-anchor" href="#基本定义" aria-hidden="true"></a><span id="基本定义"> 基本定义</span></h1>
+<ul>
+<li>module：任何 <code>*.py</code> 文件，模块名即为文件名</li>
+<li>build-in module：python 内置的 module，通过 C 语言编写，在 import 时总是有最高的优先级，例如 <code>math</code>, <code>sys</code> 等。可通过 <code>sys.builtin_module_name</code> 查看</li>
+<li>standard library：python 的标准库，入 <code>random</code></li>
+<li>package：任何包含 <code>__init__.py</code> 文件的目录包名即为目录名。（python3.3 以上，不包含 <code>__init__.py</code> 文件的文件夹也会被认为是包）</li>
+</ul>
+<h1 class="article-heading"><a class="article-anchor" href="#要点" aria-hidden="true"></a><span id="要点"> 要点</span></h1>
+<ul>
+<li><code>import</code> 会在 <code>sys.path</code> 中进行搜索可用的 module/package</li>
+<li><code>sys.path</code> 总会包含被执行脚本所在的目录，但是<strong>不会</strong>包含当前的工作目录。</li>
+<li><code>import</code> module 时，会执行 module 中的代码， <code>import</code> 一个 package 时会执行 <code>__init__.py</code> 中的代码</li>
+</ul>
+<h1 class="article-heading"><a class="article-anchor" href="#import-时的搜索顺序" aria-hidden="true"></a><span id="import-时的搜索顺序"> import 时的搜索顺序</span></h1>
+<p>以 <code>import spam</code>  为例：</p>
+<ul>
+<li>在 build-in module 中搜索 module</li>
+<li>在 <code>sys.path</code> 中搜索文件 <code>spam.py</code>或者文件夹 <code>spam</code> . <code>sys.path</code> 由以下路径组成
+<ul>
+<li>如果是执行一个 python 脚本，则 <code>sys.path[0]</code> 为<strong>被执行脚本所在的目录</strong>，执行 <code>python3 packA/a1.py</code> 会看到 <code>python_import_example/packA</code> 目录位于起始位置</li>
+<li>如果实在 python 交互式环境里，则 <code>sys.path[0]</code> 为空字符串</li>
+<li><code>PYTHONPATH</code> 环境变量</li>
+<li>python 的依赖库目录</li>
+</ul>
+</li>
+</ul>
+<p><code>start.py</code> 中的 <code>import math</code> 总会去 import 属于 build-in module 的 math 模块，而不是当前目录的 <code>math.py</code> 文件。
+而 <code>import random</code> 则会 import 当前目录下的 <code>random.py</code>，执行 <code>python3 start.py</code> 会看到只有 <code>random.py</code> 中的输出：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">random module <span class="keyword">in</span> python_import_example</div></pre></td></tr></table></figure>
+<p>所有 import 的模块都会共享 <code>sys.path</code>。例如，执行 <code>python3 start.py</code>，则 <code>sys.path</code> 中会包含 <code>python_import_example/</code> 目录，
+在 <code>start.py</code> 中 import 了 <code>packA.a1</code> 模块，所以在 <code>a1.py</code> 中可以直接 <code>import other</code>：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">import other module <span class="keyword">in</span> packA/a1.py</div><div class="line">other module <span class="keyword">in</span> python_import_exampl</div></pre></td></tr></table></figure>
+<h1 class="article-heading"><a class="article-anchor" href="#__init__py-文件" aria-hidden="true"></a><span id="__init__py-文件"> __init__.py 文件</span></h1>
+<p><code>__init__.py</code> 文件主要有两个作用</p>
+<p><strong>1. 使一个文件夹可以 import（python 3.3 之后，不包含 __init__.py 的文件夹也可以直接 import）</strong></p>
+<p>如果使用 python 3.3 以上的版本执行 <code>start.py</code>，可以看到如下输出</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">&lt;module <span class="string">'packA'</span> from <span class="string">'/home/cwq/code/python_import_example/packA/__init__.py'</span>&gt;</div><div class="line">&lt;module <span class="string">'packB'</span> (namespace)&gt;</div></pre></td></tr></table></figure>
+<p>如果使用 python 3.3 以下的版本执行 <code>start.py</code> 则会报错：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">ImportError: No module named packB</div></pre></td></tr></table></figure>
+<p><strong>2. import package 时，__init__.py 文件将会被执行，可以放一些 package 的初始化代码</strong></p>
+<p>在 packA 的 __init__.py 文件里 import 了 <a href="http://a1.py" target="_blank" rel="noopener">a1.py</a> 中的 <code>a1_func()</code> 函数，并且定义了 <code>packA_func()</code> 函数，
+所以 import 了 packA 以后可以直接调用这两个函数：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> packA  <span class="comment"># "import packA.a1" 效果一样</span></div><div class="line"></div><div class="line">packA.packA_func()</div><div class="line">packA.a1_func()</div><div class="line">packA.a1.a1_func()</div></pre></td></tr></table></figure>
+<p>执行 <code>python3 start.py</code> 可以看到如下输出：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">running packA_func()</div><div class="line">running a1_func()</div><div class="line">running a1_func()</div></pre></td></tr></table></figure>
+<p>只有当 package 被 import 时，__init__.py 才会被执行，如果是在 <code>packA/</code> 目录下直接执行 <code>python3 a1.py</code>，
+__init__.py 文件不会被执行。</p>
+<h1 class="article-heading"><a class="article-anchor" href="#使用-modulepackage-中的对象" aria-hidden="true"></a><span id="使用-modulepackage-中的对象"> 使用 Module/Package 中的对象</span></h1>
+<p>四种 import 的方式：</p>
+<ol>
+<li><code>import &lt;package&gt;</code></li>
+<li><code>import &lt;module&gt;</code></li>
+<li><code>from &lt;package&gt; import &lt;module or subpackage or object&gt;</code></li>
+<li><code>from &lt;module&gt; import &lt;object&gt;</code></li>
+</ol>
+<p>可已使用 <code>as Y</code> 给 import 的对象取别名，一个常用的例子如 <code>import numpy as np</code>。</p>
+<p>以在 <code>start.py</code> 中导入 <code>sa1.py</code> 中的 <code>helloWorld()</code> 函数为例，有以下几种导入和使用方式：</p>
+<ol>
+<li><code>from packA.subA.sa1 import helloWorld</code>
+<ul>
+<li>使用方式：<code>helloWorld()</code></li>
+</ul>
+</li>
+<li><code>from packA.subA import sa1</code> 等价于 <code>import packA.subA.sa1 as sa1</code>
+<ul>
+<li>使用方式：<code>sa1.helloWorld()</code></li>
+</ul>
+</li>
+<li><code>import packA.subA.sa1</code>
+<ul>
+<li>使用方式：<code>packA.subA.sa1.helloWorld()</code></li>
+</ul>
+</li>
+</ol>
+<h1 class="article-heading"><a class="article-anchor" href="#absolute-vs-relative-import" aria-hidden="true"></a><span id="absolute-vs-relative-import"> Absolute vs. Relative Import</span></h1>
+<p><strong>Absolute import</strong> 以 module/package 开头，只用完整的路径来 import 需要的 module/package。</p>
+<p><strong>Explicit relative import</strong> 只能使用 <code>from .&lt;module/package&gt; import X</code> 这种形式，<code>.</code> 表示从文件所在的当前路径开始搜索，
+<code>..</code> 表示从文件的上层目录开始搜索，在 <code>start.py</code> 中 import a1，在 a1 中 import <code>other</code>，<code>a2</code>，<code>sa1</code> 模块，则 <code>a1.py</code> 中
+可以用如下形式导入：</p>
+<ul>
+<li>absolute imports:</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> other</div><div class="line"><span class="keyword">import</span> packA.a2</div><div class="line"><span class="keyword">import</span> packA.subA.sa1</div></pre></td></tr></table></figure>
+<ul>
+<li>explicit relative imports:</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> other</div><div class="line"><span class="keyword">from</span> . <span class="keyword">import</span> a2</div><div class="line"><span class="keyword">from</span> .subA <span class="keyword">import</span> sa1</div></pre></td></tr></table></figure>
+<p>这里 import other 模块也使用了 absolute import，因为 relative import 的<strong>顶层目录只能到被执行脚本的下一层</strong>，执行 <code>python3 start.py</code>，
+则 relative import 的搜索目录不能到 <code>python_import_example/</code> 这一层，
+如果写成 <code>from .. import other</code> 就会报错 <code>ValueError: attempted relative import beyond top-level package</code></p>
+<h1 class="article-heading"><a class="article-anchor" href="#case1-a2-既可被-import也可被执行" aria-hidden="true"></a><span id="case1-a2-既可被-import也可被执行"> Case1: a2 既可被 import，也可被执行</span></h1>
+<p>要达到的效果：<code>start.py</code> import <code>a2</code>，<code>a2</code> import <code>sa2</code>，并且 <code>start.py</code> 和 <code>a2.py</code> 都可以直接运行。</p>
+<p>按照不同脚本执行方式和 <code>a2.py</code> 中不同的 import 方式列出下列表格：</p>
+<table>
+<thead>
+<tr>
+<th>Run/Import method</th>
+<th>from packA.subA import sa2</th>
+<th>from subA import sa2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>python3 start.py</code></td>
+<td>OK</td>
+<td>Error(No module named ‘subA’)</td>
+</tr>
+<tr>
+<td><code>python3 a2.py</code></td>
+<td>Error(No module named ‘packA’)</td>
+<td>OK</td>
+</tr>
+<tr>
+<td><code>python3 packA/a2.py</code></td>
+<td>OK</td>
+<td>OK</td>
+</tr>
+</tbody>
+</table>
+<p>如果想要使 <code>python3 start.py</code> 和 <code>python3 a2.py</code> 都能够运行，则需要在 <code>a2.py</code> 中改变 <code>sys.path</code> 的值：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> os, sys</div><div class="line">sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))</div><div class="line"></div><div class="line"><span class="comment"># now this works, even when a2.py is run directly</span></div><div class="line"><span class="keyword">from</span> packA.subA <span class="keyword">import</span> sa2</div></pre></td></tr></table></figure>
+<h1 class="article-heading"><a class="article-anchor" href="#case2-importing-from-parent-directory" aria-hidden="true"></a><span id="case2-importing-from-parent-directory"> Case2: Importing from Parent Directory</span></h1>
+<p>在不修改 <code>sys.path</code> 和 <code>PYTHONPATH</code> 的情况下，直接运行一个脚本时，不可能 import 父目录的任何 module/package.
+具体原因在<a href="#absolute-vs-relative-import">Absolute vs. Relative Import</a> 一节中有说明</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/10/http-post-body-encoding/" rel="next" title="HTTP POST 方法 body 的编码方式">
+                <i class="fa fa-chevron-left"></i> HTTP POST 方法 body 的编码方式
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sanster</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'sanstersblog';
+      var disqus_identifier = '2018/06/20/python_import/';
+
+      var disqus_title = "Python import 机制";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
